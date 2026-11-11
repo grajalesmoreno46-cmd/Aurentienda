@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auren | Lujo Urbano & Sastrería de Esquina</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bs-asfalt: #111111;
+            --bs-bone: #F4F1EA;
+            --bs-gold: #D4AF37;
+            --bs-gold-dark: #B89728;
+            --bs-charcoal: #1E1E1E;
+            --bs-surface: #1A1A1A;
+        }
+
+        body {
+            background-color: var(--bs-asfalt);
+            color: var(--bs-bone);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Colores de Utilidad Bootstrap Personalizados */
+        .bg-asfalt { background-color: var(--bs-asfalt) !important; }
+        .bg-surface { background-color: var(--bs-surface) !important; }
+        .bg-charcoal { background-color: var(--bs-charcoal) !important; }
+        .bg-gold { background-color: var(--bs-gold) !important; color: var(--bs-asfalt) !important; }
+        .text-gold { color: var(--bs-gold) !important; }
+        .text-bone { color: var(--bs-bone) !important; }
+        .border-gold-subtle { border-color: rgba(212, 175, 55, 0.3) !important; }
+        .border-bone-subtle { border-color: rgba(244, 241, 234, 0.1) !important; }
+
+        /* Botones personalizados */
+        .btn-gold {
+            background-color: var(--bs-gold);
+            color: var(--bs-asfalt);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            background-color: var(--bs-gold-dark);
+            color: var(--bs-asfalt);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline-gold {
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: var(--bs-gold);
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-gold:hover {
+            background-color: var(--bs-gold);
+            color: var(--bs-asfalt);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bs-asfalt);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bs-gold);
+        }
+
+        /* Override Bootstrap Accordion */
+        .accordion-item {
+            background-color: var(--bs-surface);
+            border: 1px solid rgba(244, 241, 234, 0.1);
+            color: var(--bs-bone);
+        }
+        .accordion-button {
+            background-color: var(--bs-surface);
+            color: var(--bs-bone);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            box-shadow: none !important;
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: var(--bs-surface);
+            color: var(--bs-gold);
+        }
+        .accordion-button::after {
+            filter: invert(1);
+        }
+        .accordion-body {
+            color: rgba(244, 241, 234, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Toast flotante */
+        #toast-container {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 1055;
+        }
+
+        /* Botón WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 28px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            z-index: 1040;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            color: #FFF;
+        }
+    </style>
+</head>
+<body class="selection-gold">
+
+    <!-- Toast de Notificaciones -->
+    <div id="toast-container">
+        <div id="liveToast" class="toast align-items-center text-bg-dark bg-surface border border-gold-subtle" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-gold fs-5"></i>
+                    <div>
+                        <strong class="d-block font-display text-gold" id="toast-title">Aviso</strong>
+                        <small id="toast-msg" class="text-bone-subtle">Mensaje de prueba</small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de Anuncio Superior -->
+    <div class="bg-gold text-center py-2 px-3">
+        <span class="font-display fw-bold text-uppercase fs-6 tracking-wider">
+            🔥 Drop 004 Disponible — Envíos Seguros a todo Medallo y a nivel nacional · Comuna 8, Medellín 🔥
+        </span>
+    </div>
+
+    <!-- Navegación Fija Bootstrap -->
+    <nav class="navbar navbar-expand-lg sticky-top bg-asfalt border-bottom border-bone-subtle py-3">
+        <div class="container">
+            <!-- Brand Logo Oficial -->
+            <a class="navbar-brand d-flex align-items-center" href="#inicio">
+                <img src="IMG/Logotipo.png" alt="Auren Logo" style="height: 50px; width: 90PX;" class="rounded">
+            </a>
+
+            <!-- Toggle Button Mobile -->
+            <button class="navbar-toggler border-0 text-bone" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars fs-3 text-bone"></i>
+            </button>
+
+            <!-- Links & Actions -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-menu navbar-nav mx-auto mb-2 mb-lg-0 font-display text-uppercase fs-7 tracking-widest gap-lg-4">
+                    <li class="nav-item"><a class="nav-link text-gold" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link text-bone" href="#nosotros">La Marca</a></li>
+                    <li class="nav-item"><a class="nav-link text-bone" href="#coleccion">Colección</a></li>
+                    <li class="nav-item"><a class="nav-link text-bone" href="#experiencia">Manifiesto</a></li>
+                    <li class="nav-item"><a class="nav-link text-bone" href="#soporte">Soporte</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3">
+                    <button type="button" class="btn text-bone position-relative p-2" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                        <i class="fa-solid fa-bag-shopping fs-4"></i>
+                        <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark font-display">0</span>
+                    </button>
+                    <button onclick="openSizeGuide()" class="btn btn-outline-gold btn-sm d-none d-sm-inline-block px-3 py-2 rounded-3">
+                        Guía de Tallas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- SECCIÓN INICIO (HERO) -->
+        <section id="inicio" class="py-5 min-vh-90 d-flex align-items-center text-center relative overflow-hidden">
+            <div class="container py-5">
+                <div class="mb-4">
+                    <span class="badge rounded-pill bg-surface border border-gold-subtle text-gold font-display px-3 py-2 text-uppercase tracking-widest">
+                        <i class="fa-solid fa-location-dot me-1"></i> Comuna 8, Medellín — Colombia
+                    </span>
+                </div>
+
+                <h1 class="font-display display-2 fw-extrabold text-uppercase tracking-tight mb-2">
+                    Elegancia de Barrio
+                </h1>
+                <h2 class="font-display h3 text-gold text-uppercase tracking-widest mb-4">
+                    — SILENCE SPEAKS —
+                </h2>
+
+                <p class="lead text-bone opacity-75 max-w-2xl mx-auto mb-5 font-light">
+                    Rompiendo estigmas a través de prendas con carácter, sastrería urbana y acabados impecables que compiten en el mercado global.
+                </p>
+
+                <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mb-5">
+                    <a href="#coleccion" class="btn btn-gold btn-lg px-4 py-3 rounded-3">Explorar Drop Activo</a>
+                    <a href="#nosotros" class="btn btn-outline-light btn-lg px-4 py-3 rounded-3 font-display text-uppercase">Nuestra Historia</a>
+                </div>
+
+                <!-- Estadísticas de la Marca -->
+                <div class="row pt-5 mt-4 border-top border-bone-subtle">
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="font-display display-5 fw-bold text-gold">100%</div>
+                        <p class="text-uppercase text-bone opacity-50 fs-7 tracking-widest mb-0">Algodón Alto Gramaje</p>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="font-display display-5 fw-bold text-bone">420g</div>
+                        <p class="text-uppercase text-bone opacity-50 fs-7 tracking-widest mb-0">Hoodies Peso Pesado</p>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="font-display display-5 fw-bold text-gold">C8</div>
+                        <p class="text-uppercase text-bone opacity-50 fs-7 tracking-widest mb-0">Raíz Identitaria</p>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="font-display display-5 fw-bold text-bone">Omni</div>
+                        <p class="text-uppercase text-bone opacity-50 fs-7 tracking-widest mb-0">Envíos Globales</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN NOSOTROS (THE BRAND) -->
+        <section id="nosotros" class="py-5 bg-surface">
+            <div class="container py-5">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <div class="position-relative">
+                            <img src="IMG/collage.jpg" alt="Auren Lookbook Collage" class="img-fluid rounded-4 border border-bone-subtle shadow-lg" style="object-fit: cover; height: 550px; width: 100%;">
+                            <div class="position-absolute bottom-0 start-0 end-0 p-4 m-3 bg-asfalt rounded-3 border border-bone-subtle bg-opacity-90 backdrop-blur">
+                                <span class="font-display text-uppercase text-gold fs-7 tracking-widest d-block mb-1">Fundación 15.08.2026</span>
+                                <p class="font-display text-bone mb-0 fs-6">"La elegancia no tiene código postal; nace donde hay autenticidad y visión."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <span class="font-display text-gold text-uppercase tracking-widest fs-7 d-block mb-2">Origen & Propósito</span>
+                        <h2 class="font-display display-5 fw-bold text-uppercase mb-4">Nacidos en la Comuna 8, Diseñados para el Mundo</h2>
+                        <p class="text-bone opacity-75 leading-relaxed mb-4">
+                            Auren no es solo moda urbana; es un manifiesto físico. Fundada en las laderas de la Comuna 8 de Medellín, nuestra marca surge con el propósito visceral de romper estigmas y estereotipos asociados a los sectores populares, elevando la cultura de calle al estatus de alta costura.
+                        </p>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <div class="bg-asfalt p-4 rounded-3 border border-bone-subtle h-100">
+                                    <h3 class="font-display text-gold fw-bold fs-5 mb-2">Misión</h3>
+                                    <p class="fs-7 text-bone opacity-75 mb-0">Democratizar la sofisticación a través de la cultura urbana, dotando a la comunidad de prendas con carácter y narrativa real.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="bg-asfalt p-4 rounded-3 border border-bone-subtle h-100">
+                                    <h3 class="font-display text-gold fw-bold fs-5 mb-2">Visión Diferenciadora</h3>
+                                    <p class="fs-7 text-bone opacity-75 mb-0">Fusionar la sastrería elegante con la calle sin caer en disfraces fríos. Autenticidad poética frente al lujo genérico.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN GALERÍA DE ACABADOS Y ARTESANÍA DE MARCA -->
+        <section class="py-5 bg-asfalt border-top border-bottom border-bone-subtle">
+            <div class="container py-4">
+                <div class="text-center mb-5">
+                    <span class="font-display text-gold text-uppercase tracking-widest fs-7">Detalles de Costura & Bordado</span>
+                    <h2 class="font-display display-5 fw-bold text-uppercase">Artesanía & Acabados de Autor</h2>
+                    <p class="text-bone opacity-75 max-w-xl mx-auto">Inspección cercana de nuestros textiles, parches bordados en hilo de alta densidad y etiquetas exclusivas Auren.</p>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-3 col-6">
+                        <div class="position-relative overflow-hidden rounded-3 border border-bone-subtle group">
+                            <img src="IMG/pantalon1.jpg" alt="Detalle Rodilla y Costura Piel de Durazno" class="img-fluid object-fit-cover w-100" style="height: 280px;">
+                            <div class="p-3 bg-asfalt bg-opacity-85 position-absolute bottom-0 w-100">
+                                <small class="font-display text-gold d-block fw-bold fs-8 text-uppercase">Corte Ergonómico</small>
+                                <span class="fs-8 text-bone opacity-75">Dril pesado lavado asfalto</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="position-relative overflow-hidden rounded-3 border border-bone-subtle group">
+                            <img src="IMG/pantalon2.jpg" alt="Vista Posterior Bolsillos Cargo Sartorial" class="img-fluid object-fit-cover w-100" style="height: 280px;">
+                            <div class="p-3 bg-asfalt bg-opacity-85 position-absolute bottom-0 w-100">
+                                <small class="font-display text-gold d-block fw-bold fs-8 text-uppercase">Bolsillos Sartoriales</small>
+                                <span class="fs-8 text-bone opacity-75">Estructura y solapas dobles</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="position-relative overflow-hidden rounded-3 border border-bone-subtle group">
+                            <img src="IMG/hoodie1.jpg" alt="Hoodie Heavyweight Acabado" class="img-fluid object-fit-cover w-100" style="height: 280px;">
+                            <div class="p-3 bg-asfalt bg-opacity-85 position-absolute bottom-0 w-100">
+                                <small class="font-display text-gold d-block fw-bold fs-8 text-uppercase">Felpa 420g</small>
+                                <span class="fs-8 text-bone opacity-75">Textura pesada de autor</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="position-relative overflow-hidden rounded-3 border border-bone-subtle group">
+                            <img src="IMG/camisa4.jpg" alt="Estampa Espalda Silence Speaks" class="img-fluid object-fit-cover w-100" style="height: 280px;">
+                            <div class="p-3 bg-asfalt bg-opacity-85 position-absolute bottom-0 w-100">
+                                <small class="font-display text-gold d-block fw-bold fs-8 text-uppercase">Backpack Print</small>
+                                <span class="fs-8 text-bone opacity-75">Serigrafía de alta densidad</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN COLECCIÓN / TIENDA -->
+        <section id="coleccion" class="py-5 bg-asfalt">
+            <div class="container py-5">
+                <div class="text-center mb-5">
+                    <span class="font-display text-gold text-uppercase tracking-widest fs-7">Catálogo Exclusivo</span>
+                    <h2 class="font-display display-4 fw-bold text-uppercase mb-3">Drop Activo: Silence Speaks C8</h2>
+                    <p class="text-bone opacity-75">Explora nuestras siluetas estructuradas, camisetas de alto gramaje y hoodies de peso pesado.</p>
+                    
+                    <!-- Filtros -->
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mt-4 font-display">
+                        <button onclick="filterProducts('all', this)" class="btn btn-gold btn-sm rounded-pill px-4 py-2">Todos</button>
+                        <button onclick="filterProducts('tshirt', this)" class="btn btn-outline-light btn-sm rounded-pill px-4 py-2">Camisetas Boxy</button>
+                        <button onclick="filterProducts('hoodie', this)" class="btn btn-outline-light btn-sm rounded-pill px-4 py-2">Hoodies 420g</button>
+                        <button onclick="filterProducts('bottom', this)" class="btn btn-outline-light btn-sm rounded-pill px-4 py-2">Pantalones Cargo</button>
+                    </div>
+                </div>
+
+                <!-- Grid de Productos Exclusivo con Imágenes Oficiales Exactas -->
+                <div class="row g-4" id="product-grid">
+                    <!-- Producto 1: Camiseta Boxy Negra -->
+                    <div class="col-md-6 col-lg-4 product-card" data-category="tshirt">
+                        <div class="card bg-surface border-bone-subtle rounded-4 overflow-hidden h-100 text-bone">
+                            <div class="position-relative bg-charcoal overflow-hidden group">
+                                <img id="IMG" src="IMG/camisa1.jpg" class="card-img-top object-fit-cover transition-transform" style="height: 420px;" alt="Camiseta Boxy Fit Asfalto Silence Speaks">
+                                <span class="position-absolute top-0 start-0 m-3 badge bg-gold text-dark font-display text-uppercase">390g Algodón</span>
+                                <button onclick="toggleProductView('p1-img', 'IMG/camisa1.jpg', 'IMG/camisa4.jpg')" class="btn btn-sm btn-dark position-absolute top-0 end-0 m-3 opacity-85 font-display fs-8">
+                                    <i class="fa-solid fa-rotate me-1"></i> Ver Espalda
+                                </button>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between p-4">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-start mb-1">
+                                        <h3 class="font-display fw-bold fs-5 mb-0">Camiseta Boxy Fit Asfalto "Silence Speaks"</h3>
+                                    </div>
+                                    <p class="fs-7 text-bone opacity-60 mb-3">Algodón peinado 390g, cuello rib reforzado y tipografía frontal Auren.</p>
+                                    
+                                    <!-- Selector de Talla -->
+                                    <div class="mb-3">
+                                        <label class="form-label fs-8 text-uppercase tracking-wider text-gold font-display mb-1">Seleccionar Talla</label>
+                                        <div class="d-flex gap-2">
+                                            <input type="radio" class="btn-check" name="size-p1" id="p1-s" value="S" checked>
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p1-s">S</label>
+                                            <input type="radio" class="btn-check" name="size-p1" id="p1-m" value="M">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p1-m">M</label>
+                                            <input type="radio" class="btn-check" name="size-p1" id="p1-l" value="L">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p1-l">L</label>
+                                            <input type="radio" class="btn-check" name="size-p1" id="p1-xl" value="XL">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p1-xl">XL</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-bone-subtle">
+                                    <span class="font-display fw-bold fs-5 text-gold">$249,000 COP</span>
+                                    <button onclick="addToCart('Camiseta Boxy Fit Asfalto Silence Speaks', 249000, 'camisa1.jpg', 'size-p1')" class="btn btn-gold btn-sm font-display fw-bold text-uppercase px-3 py-2">
+                                        <i class="fa-solid fa-plus me-1"></i> Añadir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Producto 2: Hoodie Negro -->
+                    <div class="col-md-6 col-lg-4 product-card" data-category="hoodie">
+                        <div class="card bg-surface border-bone-subtle rounded-4 overflow-hidden h-100 text-bone">
+                            <div class="position-relative bg-charcoal overflow-hidden">
+                                <img src="IMG/hoodie2.jpg" class="card-img-top object-fit-cover" style="height: 420px;" alt="Hoodie Heavyweight Monograma AR">
+                                <span class="position-absolute top-0 start-0 m-3 badge bg-gold text-dark font-display text-uppercase">420g Heavyweight</span>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between p-4">
+                                <div>
+                                    <h3 class="font-display fw-bold fs-5 mb-1">Hoodie Oversized Monograma AR</h3>
+                                    <p class="fs-7 text-bone opacity-60 mb-3">Felpa pesada 420g, bordado artesanal AR de alta definición en pecho.</p>
+                                    
+                                    <!-- Selector de Talla -->
+                                    <div class="mb-3">
+                                        <label class="form-label fs-8 text-uppercase tracking-wider text-gold font-display mb-1">Seleccionar Talla</label>
+                                        <div class="d-flex gap-2">
+                                            <input type="radio" class="btn-check" name="size-p2" id="p2-s" value="S" checked>
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p2-s">S</label>
+                                            <input type="radio" class="btn-check" name="size-p2" id="p2-m" value="M">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p2-m">M</label>
+                                            <input type="radio" class="btn-check" name="size-p2" id="p2-l" value="L">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p2-l">L</label>
+                                            <input type="radio" class="btn-check" name="size-p2" id="p2-xl" value="XL">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p2-xl">XL</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-bone-subtle">
+                                    <span class="font-display fw-bold fs-5 text-gold">$489,000 COP</span>
+                                    <button onclick="addToCart('Hoodie Oversized Monograma AR', 489000, 'hoodie2.jpg', 'size-p2')" class="btn btn-gold btn-sm font-display fw-bold text-uppercase px-3 py-2">
+                                        <i class="fa-solid fa-plus me-1"></i> Añadir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Producto 3: Pantalón Cargo -->
+                    <div class="col-md-6 col-lg-4 product-card" data-category="bottom">
+                        <div class="card bg-surface border-bone-subtle rounded-4 overflow-hidden h-100 text-bone">
+                            <div class="position-relative bg-charcoal overflow-hidden">
+                                <img id="IMG/pantalon2.jpg" src="IMG/pantalon2.jpg" class="card-img-top object-fit-cover" style="height: 420px;" alt="Pantalón Cargo Sartorial C8">
+                                <span class="position-absolute top-0 start-0 m-3 badge bg-gold text-dark font-display text-uppercase">Sartorial Urban</span>
+                                <button onclick="toggleProductView('p3-img', 'IMG/pantalon2.jpg', 'IMG/pantalon1.jpg')" class="btn btn-sm btn-dark position-absolute top-0 end-0 m-3 opacity-85 font-display fs-8">
+                                    <i class="fa-solid fa-rotate me-1"></i> Cambiar Vista
+                                </button>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between p-4">
+                                <div>
+                                    <h3 class="font-display fw-bold fs-5 mb-1">Pantalón Cargo Sartorial C8</h3>
+                                    <p class="fs-7 text-bone opacity-60 mb-3">Dril pesado lavado asfalto, bolsillos laterales con bordado AR y pinzas sartoriales.</p>
+                                    
+                                    <!-- Selector de Talla -->
+                                    <div class="mb-3">
+                                        <label class="form-label fs-8 text-uppercase tracking-wider text-gold font-display mb-1">Seleccionar Talla</label>
+                                        <div class="d-flex gap-2">
+                                            <input type="radio" class="btn-check" name="size-p3" id="p3-s" value="S" checked>
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p3-s">S</label>
+                                            <input type="radio" class="btn-check" name="size-p3" id="p3-m" value="M">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p3-m">M</label>
+                                            <input type="radio" class="btn-check" name="size-p3" id="p3-l" value="L">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p3-l">L</label>
+                                            <input type="radio" class="btn-check" name="size-p3" id="p3-xl" value="XL">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p3-xl">XL</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-bone-subtle">
+                                    <span class="font-display fw-bold fs-5 text-gold">$520,000 COP</span>
+                                    <button onclick="addToCart('Pantalón Cargo Sartorial C8', 520000, 'pantalon2.jpg', 'size-p3')" class="btn btn-gold btn-sm font-display fw-bold text-uppercase px-3 py-2">
+                                        <i class="fa-solid fa-plus me-1"></i> Añadir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Producto 4: Camiseta Blanca Hueso -->
+                    <div class="col-md-6 col-lg-4 product-card" data-category="tshirt">
+                        <div class="card bg-surface border-bone-subtle rounded-4 overflow-hidden h-100 text-bone">
+                            <div class="position-relative bg-charcoal overflow-hidden">
+                                <img src="IMG/camisa3.jpg" class="card-img-top object-fit-cover" style="height: 420px;" alt="Camiseta Boxy Fit Hueso Auren">
+                                <span class="position-absolute top-0 start-0 m-3 badge bg-gold text-dark font-display text-uppercase">350g Cotton</span>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between p-4">
+                                <div>
+                                    <h3 class="font-display fw-bold fs-5 mb-1">Camiseta Boxy Fit Hueso "Silence Speaks"</h3>
+                                    <p class="fs-7 text-bone opacity-60 mb-3">Tono blanco hueso exclusivo, caída impecable y sutil branding de tórax.</p>
+                                    
+                                    <!-- Selector de Talla -->
+                                    <div class="mb-3">
+                                        <label class="form-label fs-8 text-uppercase tracking-wider text-gold font-display mb-1">Seleccionar Talla</label>
+                                        <div class="d-flex gap-2">
+                                            <input type="radio" class="btn-check" name="size-p4" id="p4-s" value="S" checked>
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p4-s">S</label>
+                                            <input type="radio" class="btn-check" name="size-p4" id="p4-m" value="M">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p4-m">M</label>
+                                            <input type="radio" class="btn-check" name="size-p4" id="p4-l" value="L">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p4-l">L</label>
+                                            <input type="radio" class="btn-check" name="size-p4" id="p4-xl" value="XL">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p4-xl">XL</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-bone-subtle">
+                                    <span class="font-display fw-bold fs-5 text-gold">$249,000 COP</span>
+                                    <button onclick="addToCart('Camiseta Boxy Fit Hueso Silence Speaks', 249000, 'camisa3.jpg', 'size-p4')" class="btn btn-gold btn-sm font-display fw-bold text-uppercase px-3 py-2">
+                                        <i class="fa-solid fa-plus me-1"></i> Añadir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Producto 5: Combo Outfit Completo C8 -->
+                    <div class="col-md-6 col-lg-4 product-card" data-category="hoodie">
+                        <div class="card bg-surface border-bone-subtle rounded-4 overflow-hidden h-100 text-bone border-gold-subtle">
+                            <div class="position-relative bg-charcoal overflow-hidden">
+                                <img src="IMG/collage.jpg" class="card-img-top object-fit-cover" style="height: 420px;" alt="Set Completo Lookbook C8">
+                                <span class="position-absolute top-0 start-0 m-3 badge bg-gold text-dark font-display text-uppercase">Edición Limitada</span>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between p-4">
+                                <div>
+                                    <h3 class="font-display fw-bold fs-5 mb-1 text-gold">Set Completo Lookbook C8</h3>
+                                    <p class="fs-7 text-bone opacity-60 mb-3">Incluye Hoodie Monograma AR + Pantalón Cargo Sartorial C8 en empaque especial.</p>
+                                    
+                                    <!-- Selector de Talla -->
+                                    <div class="mb-3">
+                                        <label class="form-label fs-8 text-uppercase tracking-wider text-gold font-display mb-1">Seleccionar Talla</label>
+                                        <div class="d-flex gap-2">
+                                            <input type="radio" class="btn-check" name="size-p5" id="p5-s" value="S" checked>
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p5-s">S</label>
+                                            <input type="radio" class="btn-check" name="size-p5" id="p5-m" value="M">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p5-m">M</label>
+                                            <input type="radio" class="btn-check" name="size-p5" id="p5-l" value="L">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p5-l">L</label>
+                                            <input type="radio" class="btn-check" name="size-p5" id="p5-xl" value="XL">
+                                            <label class="btn btn-outline-gold btn-sm px-2 py-1 fs-8" for="p5-xl">XL</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-bone-subtle">
+                                    <span class="font-display fw-bold fs-5 text-gold">$890,000 COP</span>
+                                    <button onclick="addToCart('Set Completo Lookbook C8', 890000, 'collage.jpg', 'size-p5')" class="btn btn-gold btn-sm font-display fw-bold text-uppercase px-3 py-2">
+                                        <i class="fa-solid fa-plus me-1"></i> Añadir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN MANIFIESTO Y PRUEBA SOCIAL -->
+        <section id="experiencia" class="py-5 bg-surface">
+            <div class="container py-5">
+                <div class="text-center mb-5">
+                    <span class="font-display text-gold text-uppercase tracking-widest fs-7">Validación de Comunidad</span>
+                    <h2 class="font-display display-4 fw-bold text-uppercase">Lo que dicen los referentes</h2>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="bg-asfalt p-4 rounded-4 border border-bone-subtle h-100 d-flex flex-column justify-content-between">
+                            <i class="fa-solid fa-quote-left text-gold fs-3 mb-3"></i>
+                            <p class="fst-italic text-bone opacity-75 fs-7 mb-4">"Por fin una marca con identidad real de barrio pero nivel internacional. El gramaje de la camiseta boxy fit no tiene competencia."</p>
+                            <div class="d-flex align-items-center gap-3 pt-3 border-top border-bone-subtle">
+                                <div class="rounded-circle bg-gold text-dark font-display fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">SM</div>
+                                <div>
+                                    <h4 class="font-display fw-bold fs-6 mb-0">Santiago Muñoz</h4>
+                                    <small class="text-uppercase text-bone opacity-50 fs-8">Artista Visual</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bg-asfalt p-4 rounded-4 border border-bone-subtle h-100 d-flex flex-column justify-content-between">
+                            <i class="fa-solid fa-quote-left text-gold fs-3 mb-3"></i>
+                            <p class="fst-italic text-bone opacity-75 fs-7 mb-4">"El hoodie de 420g es una obra de arte. Los bordados y la estructura transmiten la elegancia de esquina sin pretensiones vacías."</p>
+                            <div class="d-flex align-items-center gap-3 pt-3 border-top border-bone-subtle">
+                                <div class="rounded-circle bg-gold text-dark font-display fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">VR</div>
+                                <div>
+                                    <h4 class="font-display fw-bold fs-6 mb-0">Valeria Restrepo</h4>
+                                    <small class="text-uppercase text-bone opacity-50 fs-8">Creadora & Productora</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bg-asfalt p-4 rounded-4 border border-bone-subtle h-100 d-flex flex-column justify-content-between">
+                            <i class="fa-solid fa-quote-left text-gold fs-3 mb-3"></i>
+                            <p class="fst-italic text-bone opacity-75 fs-7 mb-4">"Compré en el drop anterior y la durabilidad tras el lavado es impecable. Se nota el rigor en la selección del algodón."</p>
+                            <div class="d-flex align-items-center gap-3 pt-3 border-top border-bone-subtle">
+                                <div class="rounded-circle bg-gold text-dark font-display fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">JC</div>
+                                <div>
+                                    <h4 class="font-display fw-bold fs-6 mb-0">Julian Cardona</h4>
+                                    <small class="text-uppercase text-bone opacity-50 fs-8">Diseñador Independiente</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN SOPORTE Y FAQ ACCORDEON BOOTSTRAP -->
+        <section id="soporte" class="py-5 bg-asfalt">
+            <div class="container py-5 max-w-4xl">
+                <div class="text-center mb-5">
+                    <span class="font-display text-gold text-uppercase tracking-widest fs-7">Atención Omnicanal</span>
+                    <h2 class="font-display display-4 fw-bold text-uppercase">Preguntas Frecuentes</h2>
+                </div>
+
+                <div class="accordion accordion-flush" id="faqAccordion">
+                    <div class="accordion-item rounded-3 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                ¿Cómo es el tallaje (fit oversized vs regular)?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Nuestras prendas están diseñadas con un patronaje boxy fit y oversized auténtico. Te recomendamos elegir tu talla habitual si buscas el calce holgado característico de la marca, o una talla menos si prefieres un fit más estructurado clásico.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item rounded-3 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                ¿Cuál es el gramaje y la durabilidad frente al lavado?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Trabajamos con algodón 100% de alto gramaje (camisetas de 200g a 390g y hoodies de 420g). Sometemos los tejidos a procesos de prelavado para evitar encogimiento. Recomendamos lavar en ciclo delicado con agua fría.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item rounded-3 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                ¿Cuáles son los tiempos de envío nacionales e internacionales?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Realizamos despachos desde nuestra base en Medellín. Los envíos nacionales en Colombia toman de 2 a 4 días hábiles. Los envíos internacionales tienen un tiempo estimado de 5 a 9 días hábiles.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5 p-5 bg-surface rounded-4 border border-gold-subtle text-center">
+                    <h3 class="font-display text-uppercase fw-bold mb-3">¿Necesitas asesoría personalizada?</h3>
+                    <p class="text-bone opacity-75 mb-4">Atención digital disponible de Lunes a Sábado de 9:00 a.m. a 7:00 p.m.</p>
+                    <a href="https://wa.me/573000000000?text=Hola%20Auren,%20deseo%20asesor%C3%ADa%20sobre%20el%20drop%20activo." target="_blank" class="btn btn-success font-display fw-bold text-uppercase px-4 py-3 rounded-3">
+                        <i class="fa-brands fa-whatsapp me-2"></i> Contactar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-charcoal border-top border-bone-subtle py-5">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-md-3">
+                    <span class="font-display fw-bold fs-3 text-bone d-block mb-3">AUREN</span>
+                    <p class="fs-7 text-bone opacity-60">Lujo urbano con alma social. Nacidos en la Comuna 8 de Medellín para romper estigmas y vestir con carácter global.</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="font-display text-gold fw-bold fs-7 text-uppercase mb-3">Navegación</h4>
+                    <ul class="list-unstyled fs-7 text-bone opacity-75 space-y-2">
+                        <li><a href="#inicio" class="text-decoration-none text-bone">Inicio</a></li>
+                        <li><a href="#nosotros" class="text-decoration-none text-bone">La Marca</a></li>
+                        <li><a href="#coleccion" class="text-decoration-none text-bone">Colección</a></li>
+                        <li><a href="#soporte" class="text-decoration-none text-bone">Soporte</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="font-display text-gold fw-bold fs-7 text-uppercase mb-3">Horario Digital</h4>
+                    <p class="fs-7 text-bone opacity-75">Lunes a Sábado<br>9:00 a.m. – 7:00 p.m.<br>Operación nativa digital omnicanal.</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="font-display text-gold fw-bold fs-7 text-uppercase mb-3">Newsletter</h4>
+                    <form onsubmit="handleNewsletter(event)">
+                        <input type="email" placeholder="Tu correo electrónico" required class="form-control bg-asfalt border-bone-subtle text-bone text-xs mb-2">
+                        <button type="submit" class="btn btn-gold w-100 btn-sm">Suscribirse</button>
+                    </form>
+                </div>
+            </div>
+            <div class="pt-4 border-top border-bone-subtle d-flex flex-column flex-sm-row justify-content-between align-items-center fs-7 text-bone opacity-50">
+                <p class="mb-0">&copy; 2026 AUREN. Todos los derechos reservados. Comuna 8, Medellín.</p>
+                <div class="d-flex gap-4 mt-3 mt-sm-0">
+                    <a href="#" class="text-decoration-none text-bone">Instagram</a>
+                    <a href="#" class="text-decoration-none text-bone">TikTok</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/573000000000?text=Hola%20Auren" class="whatsapp-float" target="_blank" aria-label="Contacto WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- OFFCANVAS CARRITO DE COMPRAS BOOTSTRAP -->
+    <div class="offcanvas offcanvas-end bg-surface text-bone" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+        <div class="offcanvas-header border-bottom border-bone-subtle">
+            <h5 class="offcanvas-title font-display text-uppercase fw-bold" id="cartOffcanvasLabel">Tu Bolsa de Compras</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column justify-content-between">
+            <div id="cart-items" class="space-y-3">
+                <p id="empty-cart-msg" class="text-center text-bone opacity-50 my-5 fs-7">Tu bolsa está vacía actualmente.</p>
+            </div>
+            <div class="pt-4 border-top border-bone-subtle">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="font-display text-uppercase text-bone opacity-75">Subtotal</span>
+                    <span id="cart-total" class="font-display fw-bold text-gold fs-5">$0 COP</span>
+                </div>
+                <button onclick="checkout()" class="btn btn-gold w-100 py-3 rounded-3">Iniciar Pago Seguro</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL GUÍA DE TALLAS BOOTSTRAP -->
+    <div class="modal fade" id="sizeGuideModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-surface text-bone border border-bone-subtle">
+                <div class="modal-header border-bottom border-bone-subtle">
+                    <h5 class="modal-title font-display text-gold text-uppercase fw-bold">Guía de Tallas (Oversized)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-dark table-borderless fs-7 align-middle">
+                        <thead>
+                            <tr class="text-gold font-display border-bottom border-bone-subtle">
+                                <th>Talla</th>
+                                <th>Pecho (cm)</th>
+                                <th>Largo (cm)</th>
+                                <th>Estatura Rec.</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-bone opacity-75">
+                            <tr><td><strong>S</strong></td><td>112</td><td>72</td><td>1.60 - 1.70m</td></tr>
+                            <tr><td><strong>M</strong></td><td>118</td><td>74</td><td>1.70 - 1.78m</td></tr>
+                            <tr><td><strong>L</strong></td><td>124</td><td>76</td><td>1.78 - 1.85m</td></tr>
+                            <tr><td><strong>XL</strong></td><td>130</td><td>78</td><td>> 1.85m</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JS Personalizado Lógica -->
+    <script>
+        // Lógica para alternar vistas de prenda (Frontal / Trasera)
+        function toggleProductView(imgId, frontSrc, backSrc) {
+            const img = document.getElementById(imgId);
+            if (img.src.includes(frontSrc)) {
+                img.src = backSrc;
+            } else {
+                img.src = frontSrc;
+            }
+        }
+
+        // Lógica del Carrito
+        let cart = [];
+
+        function addToCart(name, price, img, sizeGroupName) {
+            // Obtener talla seleccionada del radio group
+            let size = "M";
+            if (sizeGroupName) {
+                const selectedRadio = document.querySelector(`input[name="${sizeGroupName}"]:checked`);
+                if (selectedRadio) size = selectedRadio.value;
+            }
+
+            const itemKey = `${name}-${size}`;
+            const existingItem = cart.find(item => item.key === itemKey);
+
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ key: itemKey, name, price, img, size, qty: 1 });
+            }
+            updateCartUI();
+            showToast("Añadido a la Bolsa", `${name} (Talla ${size}) se agregó a la bolsa.`);
+
+            // Abrir automáticamente el carrito para mejor UX
+            const cartOffcanvasEl = document.getElementById('cartOffcanvas');
+            const cartOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(cartOffcanvasEl);
+            cartOffcanvas.show();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const countEl = document.getElementById('cart-count');
+            const itemsEl = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            countEl.textContent = totalQty;
+
+            if (cart.length === 0) {
+                itemsEl.innerHTML = `<p id="empty-cart-msg" class="text-center text-bone opacity-50 my-5 fs-7">Tu bolsa está vacía actualmente.</p>`;
+                totalEl.textContent = "$0 COP";
+                return;
+            }
+
+            itemsEl.innerHTML = '';
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                totalPrice += item.price * item.qty;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "d-flex align-items-center justify-content-between border-bottom border-bone-subtle py-3";
+                itemDiv.innerHTML = `
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="${item.img}" class="rounded object-fit-cover" style="width: 55px; height: 70px;">
+                        <div>
+                            <h6 class="font-display text-bone mb-0 fs-7 fw-bold">${item.name}</h6>
+                            <small class="badge bg-gold text-dark font-display me-2 fs-8">Talla: ${item.size}</small>
+                            <small class="text-bone opacity-75 font-display">$${item.price.toLocaleString()} x ${item.qty}</small>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="btn btn-sm text-danger opacity-75 hover-opacity-100 p-2"><i class="fa-solid fa-trash fs-6"></i></button>
+                `;
+                itemsEl.appendChild(itemDiv);
+            });
+
+            totalEl.textContent = `$${totalPrice.toLocaleString()} COP`;
+        }
+
+        // Filtro de Productos
+        function filterProducts(category, btn) {
+            const buttons = btn.parentElement.querySelectorAll('.btn');
+            buttons.forEach(b => {
+                b.classList.remove('btn-gold');
+                b.classList.add('btn-outline-light');
+            });
+            btn.classList.remove('btn-outline-light');
+            btn.classList.add('btn-gold');
+
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Abrir Modal Guía de Tallas
+        function openSizeGuide() {
+            const sizeModal = new bootstrap.Modal(document.getElementById('sizeGuideModal'));
+            sizeModal.show();
+        }
+
+        // Toast de Notificación Bootstrap
+        function showToast(title, msg) {
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-msg').textContent = msg;
+            const toastEl = document.getElementById('liveToast');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
+        // Newsletter Handler
+        function handleNewsletter(e) {
+            e.preventDefault();
+            showToast("Suscripción Exitosa", "Te has unido a la comunidad exclusiva de Auren.");
+            e.target.reset();
+        }
+
+        // Checkout Simulado
+        function checkout() {
+            if (cart.length === 0) {
+                showToast("Bolsa Vacía", "Agrega al menos una prenda antes de proceder.");
+                return;
+            }
+            showToast("Redirigiendo", "Iniciando pasarela de pago segura de alta gama...");
+        }
+    </script>
+</body>
+</html>
